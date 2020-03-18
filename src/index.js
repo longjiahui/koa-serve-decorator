@@ -92,7 +92,10 @@ function routeAll(options){
 function dealParams(rule){
     return async (ctx, next)=>{
         try{
-           await (new Validator().validate(ctx.request.body, rule));
+            let params = {};
+            Object.assign(params, ctx.params);
+            Object.assign(params, ctx.request.body);
+            await (new Validator().validate(params, rule));
         }catch(error){
             throw err.ERR_ARG(error);            
         }
