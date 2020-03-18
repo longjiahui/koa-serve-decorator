@@ -4,6 +4,7 @@
 - params
 - queries
 - loginCheck
+- 基于`stage-1`的decorator，使用`@babel/plugin-proposal-decorators`插件时需要设置`{"legacy": true}`
 
 # Install
 
