@@ -80,7 +80,7 @@ function routeAll(options){
             }
         });
         if(baseRoute[pathIndex] && baseRoute[pathIndex] !== '/'){
-            router = (new Router()).use(route[pathIndex], router.routes());
+            router = (new Router()).use(baseRoute[pathIndex], router.routes());
         }
         routers.push(router.routes());
     })
