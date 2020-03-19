@@ -56,6 +56,17 @@
 
 - `options: Object`
   - `route: Object` `routeAll`的参数
+  - `dirs: [[string]]` 指定该参数可以自动include所有的路由类和Service类，基于[`require-all`](https://github.com/felixge/node-require-all)
+    - e.g. 后面recursive部分的其它配置参考require-all的配置
+        ```javascript
+        initAll({
+            dirs: [
+                [`${__dirname}/controller`, {recursive: true}],
+                //...
+            ]
+        })
+        ```
+    - 当前默认的配置是 `filter: /.js$/` 
   - service还没有相关参数，所以位置如此预留了
 
 ```javascript

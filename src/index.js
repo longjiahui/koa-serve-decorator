@@ -7,6 +7,14 @@ module.exports = {
     ...route,
     ...service,
     initAll(options = {}){
+        if(options.dirs){
+            options.dirs.forEach(({0:dirname,1: requireAllOptions})=>{
+                require('require-all')(Object.assign({
+                    dirname,
+                    filter: /.js$/,
+                }, requireAllOptions));
+            });
+        }
         return compose([serviceAll(options.service), routeAll(options.route)]);
     },
 }
