@@ -34,6 +34,14 @@
 
 装饰一个类，会在类中注入ctx成员，同时创建一个该类的对象挂载在ctx中，且不同的service之间可以互相调用。
 
+### `@beforeRoute`
+
+装饰service的类成员函数，此service的成员函数会在每次用户请求时被调用
+
+### `@afterRoute`
+
+装饰service的类成员函数，此service的成员函数会在每次用户请求后被调用
+
 ### `routeAll(options: Object)`
 
 因为`@loginCheck`, `@route`, `@param`, `@query`之间在实现的层面存在顺序问题，所以他们的初始化都使用同一个`routeAll函数`，当然，**使用的顺序是不会影响结果的**，`serviceAll`应该在`routeAll`前被注册
