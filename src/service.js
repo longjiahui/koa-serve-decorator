@@ -1,16 +1,6 @@
 const DecoratorManager = require('decorator-manager');
 const assert = require('assert');
 
-let services = {};
-/**
- * {
- *  key: {
- *      service:{},
- *      beforeRoutes:[]
- *  }
- * }
- */
-
 let manager = new DecoratorManager();
 manager.register('service', {hasArgs: false});
 // indicating the method will call before route
@@ -18,6 +8,15 @@ manager.register('beforeRoute', {hasArgs: false});
 manager.register('afterRoute', {hasArgs: false});
 
 function serviceAll(){
+    /**
+     * {
+     *  key: {
+     *      service:{},
+     *      beforeRoutes:[]
+     *  }
+     * }
+     */    
+    let services = {};
     manager.forEach((target, config)=>{
         if(config.service){
             let key = target.constructor.name;
