@@ -10,34 +10,18 @@ const DecoratorManager = require('decorator-manager');
 
 const jwt = require('jsonwebtoken');
 
-const errno = {
-  //
-  ERR_ARG: 'arg error',
-  ERR_NOTOKEN: 'no token, maybe not login',
-  ERR_VERIFY_ERROR: 'verify error',
-  //
-  ERR_GETTOKEN_ERROR: '[system] get token function must be set',
-  ERR_GETJWTSECRET_ERROR: '[system] jwtsecret must be set'
-};
-const err = {
-  ERR_ARG: msg => ({
-    code: errno.ERR_ARG,
-    msg
-  }),
-  ERR_NOTOKEN: {
-    code: errno.ERR_NOTOKEN,
-    msg: errno.ERR_NOTOKEN
-  },
-  ERR_VERIFY_ERROR: msg => ({
-    code: errno.ERR_VERIFY_ERROR,
-    msg
-  })
-};
+const {
+  err,
+  errno
+} = require('./error');
+
 let manager = new DecoratorManager();
 manager.register('route');
 manager.register('param');
 manager.register('query');
-manager.register('loginCheck');
+manager.register('loginCheck', {
+  hasArgs: false
+});
 /**
  * 
  * @param {*} options    getToken(ctx)  jwtSecret base
@@ -101,7 +85,7 @@ function routeAll(options) {
     });
 
     if (baseRoute[pathIndex] && baseRoute[pathIndex] !== '/') {
-      router = new Router().use(route[pathIndex], router.routes());
+      router = new Router().use(baseRoute[pathIndex], router.routes());
     }
 
     routers.push(router.routes());
@@ -178,6 +162,5 @@ function dealLoginCheck(options) {
 
 module.exports = { ...manager.decorators,
   routeAll,
-  errno,
   DecoratorManager
 };
