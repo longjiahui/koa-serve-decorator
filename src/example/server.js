@@ -1,6 +1,6 @@
 const Koa = require('koa');
 const koaBody = require('koa-body');
-const {route, param, query, routeAll, service, serviceAll, initAll, errno} = require('../index');
+const {route, param, query, routeAll, service, serviceAll, initAll, beforeRoute, afterRoute} = require('../index');
 
 @route('/', 'get')
 class A{
@@ -12,31 +12,43 @@ class A{
         'c?': val=>val.length > 3
     })
     @route('/abc')
-    test(ctx){
+    async test(ctx, next){
         ctx.aService.a();
         console.log('lala');
-        ctx.body = {
-            hello: '1'
-        }
+        ctx.body = ctx.aService.a();
+        await next();
     }
 
     @query({
         b: /test/
     })
     @route('/apid')
-    test2(ctx){
+    async test2(ctx){
         console.log('lala');
         ctx.body = {
             hello: '2'
         }
+        await next();
     }
 }
 
 @service
 class AService{
+    constructor(){
+        this.count = 0;
+    }
     a(){
-        console.log(typeof this.ctx);
-        this.ctx.bService.b();
+        return this.count;
+    }
+    @beforeRoute
+    b(){
+        console.log('beforeRoute');
+        this.count +=1;
+    }
+    @afterRoute
+    c(){
+        console.log('afterRoute');
+        this.count +=1;
     }
 }
 @service

@@ -4,30 +4,7 @@ const compose = require('koa-compose');
 const Validator = require('validator-biang');
 const DecoratorManager = require('decorator-manager');
 const jwt = require('jsonwebtoken');
-const errno={
-    //
-    ERR_ARG: 'arg error',
-    ERR_NOTOKEN: 'no token, maybe not login',
-    ERR_VERIFY_ERROR: 'verify error',
-
-    //
-    ERR_GETTOKEN_ERROR: '[system] get token function must be set',
-    ERR_GETJWTSECRET_ERROR: '[system] jwtsecret must be set',
-}
-const err = {
-    ERR_ARG: (msg)=>({
-        code: errno.ERR_ARG,
-        msg
-    }),
-    ERR_NOTOKEN: {
-        code: errno.ERR_NOTOKEN,
-        msg: errno.ERR_NOTOKEN
-    },
-    ERR_VERIFY_ERROR: msg=>({
-        code: errno.ERR_VERIFY_ERROR,
-        msg,
-    })
-}
+const {err, errno} = require('./error');
 
 let manager = new DecoratorManager();
 
@@ -147,6 +124,5 @@ function dealLoginCheck(options){
 module.exports = {
     ...manager.decorators,
     routeAll,
-    errno,
     DecoratorManager
 }

@@ -1,4 +1,4 @@
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _class, _class2, _class3, _class4;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _class, _class2, _class3, _class4, _class5;
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
@@ -14,7 +14,8 @@ const {
   service,
   serviceAll,
   initAll,
-  errno
+  beforeRoute,
+  afterRoute
 } = require('../index');
 
 let A = (_dec = route('/', 'get'), _dec2 = query({
@@ -25,37 +26,50 @@ let A = (_dec = route('/', 'get'), _dec2 = query({
 }), _dec4 = route('/abc'), _dec5 = query({
   b: /test/
 }), _dec6 = route('/apid'), _dec(_class = (_class2 = class A {
-  test(ctx) {
+  async test(ctx, next) {
     ctx.aService.a();
     console.log('lala');
-    ctx.body = {
-      hello: '1'
-    };
+    ctx.body = ctx.aService.a();
+    await next();
   }
 
-  test2(ctx) {
+  async test2(ctx) {
     console.log('lala');
     ctx.body = {
       hello: '2'
     };
+    await next();
   }
 
 }, (_applyDecoratedDescriptor(_class2.prototype, "test", [_dec2, _dec3, _dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "test"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "test2", [_dec5, _dec6], Object.getOwnPropertyDescriptor(_class2.prototype, "test2"), _class2.prototype)), _class2)) || _class);
 
-let AService = service(_class3 = class AService {
-  a() {
-    console.log(typeof this.ctx);
-    this.ctx.bService.b();
+let AService = service(_class3 = (_class4 = class AService {
+  constructor() {
+    this.count = 0;
   }
 
-}) || _class3;
+  a() {
+    return this.count;
+  }
 
-let BService = service(_class4 = class BService {
+  b() {
+    console.log('beforeRoute');
+    this.count += 1;
+  }
+
+  c() {
+    console.log('afterRoute');
+    this.count += 1;
+  }
+
+}, (_applyDecoratedDescriptor(_class4.prototype, "b", [beforeRoute], Object.getOwnPropertyDescriptor(_class4.prototype, "b"), _class4.prototype), _applyDecoratedDescriptor(_class4.prototype, "c", [afterRoute], Object.getOwnPropertyDescriptor(_class4.prototype, "c"), _class4.prototype)), _class4)) || _class3;
+
+let BService = service(_class5 = class BService {
   b() {
     console.log('b');
   }
 
-}) || _class4;
+}) || _class5;
 
 let app = new Koa();
 app.use(koaBody());
