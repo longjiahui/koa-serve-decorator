@@ -17,12 +17,18 @@ function serviceAll(){
      * }
      */    
     let services = {};
+    let _ctx = null;
     manager.forEach((target, config)=>{
         if(config.service){
             let key = target.constructor.name;
             key = key[0].toLowerCase() + key.substr(1);
             assert(services[key] === undefined, `class name[${target.constructor.name}] has already been used by another service`);
-            let service = new target.constructor()
+            let service = new target.constructor();
+            Object.defineProperty(service, 'ctx', {
+                get(){
+                    return _ctx;
+                }
+            });
             services[key] = {
                 service,
                 beforeRoutes: [],
@@ -39,10 +45,10 @@ function serviceAll(){
         }
     });
     return async (ctx, next)=>{
+        _ctx = ctx;
         for(let key in services){
             if(services.hasOwnProperty(key)){
                 let {service, beforeRoutes} = services[key];
-                service.ctx = ctx;
                 for(let i = 0; i< beforeRoutes.length; ++i){
                     let beforeRoute = beforeRoutes[i];
                     beforeRoute.call(service);
