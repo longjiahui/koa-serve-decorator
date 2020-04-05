@@ -24,12 +24,20 @@ const err = {
         code: errno.ERR_VERIFY_ERROR,
         msg,
     }),
+    ERR_GETTOKEN_ERROR:{
+        code: errno.ERR_GETTOKEN_ERROR,
+        msg: errno.ERR_GETTOKEN_ERROR,
+    },
+    ERR_GETJWTSECRET_ERROR: {
+        code: errno.ERR_GETJWTSECRET_ERROR,
+        msg: errno.ERR_GETJWTSECRET_ERROR
+    },
     ERR_BEFOREROUTE_RETURN_FALSE: name=>({
-        code: ERR_BEFOREROUTE_RETURN_FALSE,
+        code: errno.ERR_BEFOREROUTE_RETURN_FALSE,
         msg: `beforeRoute[${name}] return false`
     }),
     ERR_AFTERROUTE_RETURN_FALSE: name=>({
-        code: ERR_AFTERROUTE_RETURN_FALSE,
+        code: errno.ERR_AFTERROUTE_RETURN_FALSE,
         msg: `beforeRoute[${name}] return false`
     })
 }
