@@ -1,8 +1,8 @@
 const Router = require('koa-router');
 const assert = require('assert');
 const compose = require('koa-compose');
-const Validator = require('validator-biang');
-const DecoratorManager = require('decorator-manager');
+const Validator = require('@anfo/validator');
+const DecoratorManager = require('@anfo/decorator-manager');
 const jwt = require('jsonwebtoken');
 const {err} = require('./error');
 

@@ -1,4 +1,4 @@
-const DecoratorManager = require('decorator-manager');
+const DecoratorManager = require('@anfo/decorator-manager');
 const assert = require('assert');
 
 let manager = new DecoratorManager();

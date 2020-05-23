@@ -1,16 +1,16 @@
 {
-  "name": "koa-serve-decorator",
-  "version": "1.1.8",
+  "name": "@anfo/koa-decorators",
+  "version": "1.0.1",
   "description": "",
   "main": "src/index.js",
   "dependencies": {
-    "decorator-manager": "^1.0.10",
+    "@anfo/decorator-manager": "^1.0.0",
+    "@anfo/validator": "^1.0.0",
     "jsonwebtoken": "^8.5.1",
     "koa-compose": "^4.1.0",
     "koa-router": "^8.0.8",
     "require-all": "^3.0.0",
-    "uuid": "^7.0.2",
-    "validator-biang": "^1.0.4"
+    "uuid": "^7.0.2"
   },
   "devDependencies": {
     "koa": "^2.11.0",
