@@ -30,6 +30,8 @@
 
 声明是否需要检查用户是否登录，依赖[`jsonwebtoken`]([https://](https://www.npmjs.com/package/jsonwebtoken))，使用时需要在`routeAll`时提供`jwtSecret: String`, `getToken: Function`两个值
 
+解密的登陆数据会放在`ctx.request.user`中
+
 ### `@service`
 
 装饰一个类，会在类中注入ctx成员，同时创建一个该类的对象挂载在ctx中，且不同的service之间可以互相调用。

@@ -112,7 +112,7 @@ function dealLoginCheck(options){
             }
             try{
                 decoded = jwt.verify(token, options.jwtSecret);
-                ctx.request.user = decoded.data;
+                ctx.request.user = decoded;
             }catch(error){
                 throw err.ERR_VERIFY_ERROR(error);
             }
